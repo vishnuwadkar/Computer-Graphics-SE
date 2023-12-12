@@ -1,0 +1,83 @@
+#include <stdio.h>
+
+#include <math.h>
+
+#include <graphics.h>
+
+using namespace std;
+
+#define PI 3.141592654
+
+void drawLine(int x1, int y1, int x2, int y2) {
+
+ int dx = x2 - x1, dy = y2 - y1, steps = abs(dx) > abs(dy) ? abs(dx) + 1 :
+
+abs(dy) + 1;
+
+ float Xinc = dx / (float) steps, Yinc = dy / (float) steps;
+
+ for (float x = x1, y = y1; steps--; x += Xinc, y += Yinc)
+
+ putpixel(x, y, WHITE);
+
+}
+
+void display(int x1, int y1, int x, int y) {
+
+ putpixel(x1 + x, y1 + y, WHITE);
+
+ putpixel(x1 + x, y - y1, WHITE);
+
+ putpixel(x - x1, y1 + y, WHITE);
+
+ putpixel(x - x1, y - y1, WHITE);
+
+ putpixel(x + y1, y + x1, WHITE);
+
+ putpixel(x + y1, y - x1, WHITE);
+
+ putpixel(x - y1, y + x1, WHITE);
+
+ putpixel(x - y1, y - x1, WHITE);
+
+}
+
+void drawCircle(int x, int y, int r) {
+
+ int x1 = 0;
+
+ int y1 = r;
+
+ int dp = 3 - 2 * r;
+
+ while (x1 <= y1) {
+
+ if (dp <= 0)
+
+ dp += (4 * x1) + 6;
+
+ else
+
+ dp += 4 * (x1 - y1--) + 10;
+
+ display(++x1, y1, x, y);
+
+ }
+
+}
+
+void drawPattern(int R) {
+
+ int Ox = getmaxx() / 2;
+
+ int Oy = getmaxy() / 2;
+
+ int s = 2 * R * cos(PI / 6);
+
+ int x1 = Ox, y1 = Oy - R, x2 = Ox - (s / 2), x3 = Ox + (s / 2), y2 = Oy + R /
+
+2, y3 = y2;
+
+ drawLine(x1, y1, x2, y2);
+
+ drawLine(x1, y1, x3, y3);
